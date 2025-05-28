@@ -2,6 +2,7 @@ package com.devjoliveira.jocommerce.entities;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.devjoliveira.jocommerce.enums.OrderStatus;
@@ -94,6 +95,10 @@ public class Order {
 
   public Set<OrderItem> getItems() {
     return this.items;
+  }
+
+  public List<Product> getProducts() {
+    return items.stream().map(x -> x.getProduct()).toList();
   }
 
   @Override

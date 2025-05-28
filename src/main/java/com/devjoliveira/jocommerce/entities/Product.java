@@ -1,6 +1,7 @@
 package com.devjoliveira.jocommerce.entities;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -92,6 +93,10 @@ public class Product {
 
   public Set<OrderItem> getItems() {
     return this.items;
+  }
+
+  public List<Order> getOrders() {
+    return items.stream().map(x -> x.getOrder()).toList();
   }
 
   @Override
