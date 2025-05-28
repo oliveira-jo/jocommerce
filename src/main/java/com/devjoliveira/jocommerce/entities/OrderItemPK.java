@@ -2,7 +2,6 @@ package com.devjoliveira.jocommerce.entities;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Embeddable
@@ -12,7 +11,8 @@ public class OrderItemPK {
   @JoinColumn(name = "order_id")
   private Order order;
 
-  @ManyToMany(mappedBy = "product_id")
+  @ManyToOne
+  @JoinColumn(name = "product_id")
   private Product product;
 
   public OrderItemPK() {

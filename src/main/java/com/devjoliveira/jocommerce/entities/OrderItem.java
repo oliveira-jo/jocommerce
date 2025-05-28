@@ -18,10 +18,26 @@ public class OrderItem {
   }
 
   public OrderItem(Order order, Product product, Integer quantity, Double price) {
-    id.setOrder(order);
-    id.setProduct(product);
+    this.id.setOrder(order);
+    this.id.setProduct(product);
     this.quantity = quantity;
     this.price = price;
+  }
+
+  public Order getOrder() {
+    return this.id.getOrder();
+  }
+
+  public void setOrder(Order order) {
+    this.id.setOrder(order);
+  }
+
+  public Product getProduct() {
+    return this.id.getProduct();
+  }
+
+  public void setProduct(Product product) {
+    this.id.setProduct(product);
   }
 
   public Integer getQuantity() {
@@ -38,22 +54,6 @@ public class OrderItem {
 
   public void setPrice(Double price) {
     this.price = price;
-  }
-
-  public Order getOrder() {
-    return id.getOrder();
-  }
-
-  public Product getProduct() {
-    return id.getProduct();
-  }
-
-  public void setOrder(Order order) {
-    id.setOrder(order);
-  }
-
-  public void getProduct(Product product) {
-    id.setProduct(product);
   }
 
 }
