@@ -2,22 +2,18 @@ package com.devjoliveira.jocommerce.entities;
 
 import java.time.Instant;
 
-import com.devjoliveira.jocommerce.enums.OrderStatus;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "tb_order")
-public class Order {
+@Table
+@Entity(name = "tb_payment")
+public class Payment {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,25 +21,18 @@ public class Order {
 
   @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
   private Instant moment;
-  private OrderStatus status;
 
-  @ManyToOne
-  @JoinColumn(name = "client_id")
-  private User client;
+  @OneToOne
+  @MapsId
+  Order order;
 
-  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-  private Payment payment;
-
-  public Order() {
-
+  public Payment() {
   }
 
-  public Order(Long id, Instant moment, OrderStatus status, User client, Payment payment) {
+  public Payment(Long id, Instant moment, Order order) {
     this.id = id;
     this.moment = moment;
-    this.status = status;
-    this.client = client;
-    this.payment = payment;
+    this.order = order;
   }
 
   public Long getId() {
@@ -62,28 +51,8 @@ public class Order {
     this.moment = moment;
   }
 
-  public OrderStatus getStatus() {
-    return status;
-  }
-
-  public void setStatus(OrderStatus status) {
-    this.status = status;
-  }
-
-  public User getClient() {
-    return client;
-  }
-
-  public void setClient(User client) {
-    this.client = client;
-  }
-
-  public Payment getPayment() {
-    return payment;
-  }
-
-  public void setPayment(Payment payment) {
-    this.payment = payment;
+  public Order getOrder() {
+    return order;
   }
 
   @Override
@@ -102,7 +71,7 @@ public class Order {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    Order other = (Order) obj;
+    Payment other = (Payment) obj;
     if (id == null) {
       if (other.id != null)
         return false;
@@ -113,7 +82,7 @@ public class Order {
 
   @Override
   public String toString() {
-    return "Order [id=" + id + ", moment=" + moment + ", status=" + status + ", client=" + client + "]";
+    return "Payment [id=" + id + ", moment=" + moment + ", order=" + order + "]";
   }
 
 }
