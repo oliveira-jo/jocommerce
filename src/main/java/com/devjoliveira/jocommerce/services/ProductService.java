@@ -1,15 +1,14 @@
 package com.devjoliveira.jocommerce.services;
 
-import java.util.Optional;
-
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devjoliveira.jocommerce.dto.ProductDto;
 import com.devjoliveira.jocommerce.entities.Product;
 import com.devjoliveira.jocommerce.repositories.ProductRepository;
+import com.devjoliveira.jocommerce.services.Exceptions.ResourceNotFoundException;
 
 @Service
 public class ProductService {
@@ -23,12 +22,10 @@ public class ProductService {
   @Transactional(readOnly = true)
   public ProductDto findById(Long id) {
 
-    Optional<Product> productFromDB = productRepository.findById(id);
-    if (!productFromDB.isPresent()) {
-      throw new RuntimeException("Product not found with ID: " + id);
-    }
+    Product productFromDB = productRepository.findById(id).orElseThrow(
+        () -> new ResourceNotFoundException("Resource not found"));
 
-    return new ProductDto(productFromDB.get());
+    return new ProductDto(productFromDB);
 
   }
 
