@@ -40,4 +40,17 @@ public class ProductService {
     return productFromDB.map(ProductDto::new);
 
   }
+
+  @Transactional
+  public ProductDto insert(ProductDto productDto) {
+
+    Product product = new Product();
+    product.setName(productDto.name());
+    product.setDescription(productDto.description());
+    product.setPrice(productDto.price());
+    product.setImageUrl(productDto.imageUrl());
+
+    return new ProductDto(productRepository.save(product));
+
+  }
 }
