@@ -2,7 +2,10 @@ package com.devjoliveira.jocommerce.services;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devjoliveira.jocommerce.dto.ProductDto;
 import com.devjoliveira.jocommerce.entities.Product;
@@ -17,6 +20,7 @@ public class ProductService {
     this.productRepository = productRepository;
   }
 
+  @Transactional(readOnly = true)
   public ProductDto findById(Long id) {
 
     Optional<Product> productFromDB = productRepository.findById(id);
@@ -25,6 +29,15 @@ public class ProductService {
     }
 
     return new ProductDto(productFromDB.get());
+
+  }
+
+  @Transactional(readOnly = true)
+  public Page<ProductDto> findAll(Pageable pageable) {
+
+    Page<Product> productFromDB = productRepository.findAll(pageable);
+
+    return productFromDB.map(ProductDto::new);
 
   }
 }
