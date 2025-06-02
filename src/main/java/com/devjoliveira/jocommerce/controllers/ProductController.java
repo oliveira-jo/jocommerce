@@ -1,6 +1,7 @@
 package com.devjoliveira.jocommerce.controllers;
 
 import java.net.URI;
+import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -38,16 +39,15 @@ public class ProductController {
   }
 
   @PostMapping
-  public ResponseEntity<?> insert(@RequestBody ProductDto productDto) {
+  public ResponseEntity<?> insert(@Valid @RequestBody ProductDto productDto) {
     productDto = productService.insert(productDto);
-    // good practice, return resource uri
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(productDto.id()).toUri();
     return ResponseEntity.created(uri).body(productDto);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ProductDto productDto) {
+  public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody ProductDto productDto) {
     return ResponseEntity.ok().body(productService.update(id, productDto));
   }
 
