@@ -1,5 +1,7 @@
 package com.devjoliveira.jocommerce.services;
 
+import java.util.stream.Collectors;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.devjoliveira.jocommerce.dto.ProductCategoryDto;
 import com.devjoliveira.jocommerce.dto.ProductDto;
 import com.devjoliveira.jocommerce.entities.Product;
 import com.devjoliveira.jocommerce.repositories.ProductRepository;
@@ -32,9 +35,29 @@ public class ProductService {
   }
 
   @Transactional(readOnly = true)
-  public Page<ProductDto> findAll(Pageable pageable) {
-    Page<Product> productFromDB = productRepository.findAll(pageable);
+  public Page<ProductDto> findAll(String name, Pageable pageable) {
+    Page<Product> productFromDB = productRepository.searchByName(name, pageable);
     return productFromDB.map(ProductDto::new);
+  }
+
+  @Transactional(readOnly = true)
+  public Page<ProductCategoryDto> find(Pageable pageable) {
+    Page<Product> page = productRepository.findAll(pageable);
+    /*
+     * CHAMADA SECA
+     * 
+     * JPA guarda em memória os objetos que já foram carregados
+     * e não faz nova consulta ao banco de dados.
+     * Isso é chamado de "Mapa de Identidade".
+     * 
+     * Neste caso estamos guardando as categorias em memória para não fazer nova
+     * consulta
+     * ao banco de dados quando acessarmos as categorias de cada produto.
+     * Isso é feito para evitar o problema de N+1 consultas.
+     */
+    productRepository.searchProductsCategories(page.stream().collect(Collectors.toList()));
+
+    return page.map(ProductCategoryDto::new);
   }
 
   @Transactional
