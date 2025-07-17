@@ -22,18 +22,18 @@ public class UserService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String email) {
 
-    List<UserDetailsProjection> userDetailsProjection = userRepository.searchUserAndRolesByEmail(email);
+    List<UserDetailsProjection> result = userRepository.searchUserAndRolesByEmail(email);
 
-    if (userDetailsProjection.isEmpty()) {
+    if (result.isEmpty()) {
       throw new UsernameNotFoundException("Email not found: " + email);
     }
 
     User user = new User();
-    user.setEmail(userDetailsProjection.get(0).getUsername());
-    user.setPassword(userDetailsProjection.get(0).getPassword());
+    user.setEmail(result.get(0).getUsername());
+    user.setPassword(result.get(0).getPassword());
 
-    for (UserDetailsProjection userDetails : userDetailsProjection) {
-      user.addRole(new Role(userDetails.getRoleId(), userDetails.getAuthority()));
+    for (UserDetailsProjection projection : result) {
+      user.addRole(new Role(projection.getRoleId(), projection.getAuthority()));
     }
 
     return user;
