@@ -1,8 +1,12 @@
 package com.devjoliveira.jocommerce.dto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.devjoliveira.jocommerce.entities.Product;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -16,6 +20,8 @@ public record ProductDto(
 
     @Positive(message = "Price must be positive") Double price,
 
+    @NotEmpty(message = "At least one category is required") List<CategoryDto> categories,
+
     String imageUrl) {
 
   public ProductDto(Product product) {
@@ -24,6 +30,9 @@ public record ProductDto(
         product.getName(),
         product.getDescription(),
         product.getPrice(),
+        product.getCategories().stream()
+            .map(obj -> new CategoryDto(obj.getId(), obj.getName()))
+            .collect(Collectors.toList()),
         product.getImageUrl());
   }
 

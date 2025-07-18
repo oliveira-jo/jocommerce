@@ -1,5 +1,6 @@
 package com.devjoliveira.jocommerce.services;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -9,10 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.devjoliveira.jocommerce.dto.ProductCategoryDto;
+import com.devjoliveira.jocommerce.dto.CategoryDto;
 import com.devjoliveira.jocommerce.dto.ProductDto;
 import com.devjoliveira.jocommerce.dto.ProductMinDto;
+import com.devjoliveira.jocommerce.entities.Category;
 import com.devjoliveira.jocommerce.entities.Product;
+import com.devjoliveira.jocommerce.repositories.CategoryRepository;
 import com.devjoliveira.jocommerce.repositories.ProductRepository;
 import com.devjoliveira.jocommerce.services.Exceptions.DatabaseException;
 import com.devjoliveira.jocommerce.services.Exceptions.ResourceNotFoundException;
@@ -24,8 +27,11 @@ public class ProductService {
 
   private final ProductRepository productRepository;
 
-  public ProductService(ProductRepository productRepository) {
+  private final CategoryRepository categoryRepository;
+
+  public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
     this.productRepository = productRepository;
+    this.categoryRepository = categoryRepository;
   }
 
   @Transactional(readOnly = true)
@@ -42,7 +48,7 @@ public class ProductService {
   }
 
   @Transactional(readOnly = true)
-  public Page<ProductCategoryDto> find(Pageable pageable) {
+  public Page<ProductDto> find(Pageable pageable) {
     Page<Product> page = productRepository.findAll(pageable);
     /*
      * CHAMADA SECA
@@ -58,15 +64,18 @@ public class ProductService {
      */
     productRepository.searchProductsCategories(page.stream().collect(Collectors.toList()));
 
-    return page.map(ProductCategoryDto::new);
+    return page.map(ProductDto::new);
   }
 
   @Transactional
-  public ProductDto insert(ProductDto dto) {
-    Product entity = new Product();
-    copyDtoToEntity(dto, entity);
-    return new ProductDto(productRepository.save(entity));
+  public ProductDto insert(ProductDto productDto) {
 
+    Product newProductEntity = new Product();
+
+    copyDtoToEntity(productDto, newProductEntity);
+
+    Product fromDB = productRepository.save(newProductEntity);
+    return new ProductDto(fromDB);
   }
 
   @Transactional
@@ -102,5 +111,16 @@ public class ProductService {
     product.setDescription(productDto.description());
     product.setPrice(productDto.price());
     product.setImageUrl(productDto.imageUrl());
+
+    product.getCategories().clear();
+
+    for (CategoryDto catDto : productDto.categories()) {
+
+      Optional<Category> categoryFromDB = categoryRepository.findById(catDto.id());
+
+      product.getCategories().add(categoryFromDB.orElseThrow(
+          () -> new ResourceNotFoundException("Category not found: " + catDto.id())));
+    }
+
   }
 }

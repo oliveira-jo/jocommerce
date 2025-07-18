@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.devjoliveira.jocommerce.dto.ProductCategoryDto;
 import com.devjoliveira.jocommerce.dto.ProductDto;
 import com.devjoliveira.jocommerce.dto.ProductMinDto;
 import com.devjoliveira.jocommerce.services.ProductService;
@@ -44,12 +43,6 @@ public class ProductController {
   public ResponseEntity<Page<ProductMinDto>> findAll(@RequestParam(name = "name", defaultValue = "") String name,
       Pageable pageable) {
     return ResponseEntity.ok().body(productService.findAll(name, pageable));
-  }
-
-  @GetMapping("/withcategories")
-  public ResponseEntity<Page<ProductCategoryDto>> find(Pageable pageable) {
-    Page<ProductCategoryDto> list = productService.find(pageable);
-    return ResponseEntity.ok().body(list);
   }
 
   @PreAuthorize("hasRole('ROLE_ADMIN')")
