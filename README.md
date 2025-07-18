@@ -59,3 +59,37 @@ The price is saved in the order item to maintain a history — so if the product
   * Configurar CSRF, CORS
   * Configurar token
   * Liberar H2 Console no modo teste
+
+### Model Order
+````
+{
+  "id": 1,
+  "moment": "2022-07-25T13:00:00Z",
+  "status": "PAID",
+  "client": {
+    "id": 1,
+    "name": "Maria Brown"
+  },
+  "payment": {
+    "id": 1,
+    "moment": "2022-07-25T15:00:00Z"
+  },
+  "items": [
+    {
+      "productId": 1,
+      "name": "The Lord of the Rings",
+      "price": 90.5,
+      "quantity": 2,
+      "subTotal": 181.0
+    },
+    {
+      "productId": 3,
+      "name": "Macbook Pro",
+      "price": 1250.0,
+      "quantity": 1,
+      "subTotal": 1250.0
+    }
+  ],
+  "total": 1431.0
+}
+````
