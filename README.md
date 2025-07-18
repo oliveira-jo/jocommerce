@@ -60,36 +60,86 @@ The price is saved in the order item to maintain a history — so if the product
   * Configurar token
   * Liberar H2 Console no modo teste
 
-### Model Order
-````
-{
-  "id": 1,
-  "moment": "2022-07-25T13:00:00Z",
-  "status": "PAID",
-  "client": {
-    "id": 1,
-    "name": "Maria Brown"
-  },
-  "payment": {
-    "id": 1,
-    "moment": "2022-07-25T15:00:00Z"
-  },
-  "items": [
-    {
-      "productId": 1,
-      "name": "The Lord of the Rings",
-      "price": 90.5,
-      "quantity": 2,
-      "subTotal": 181.0
-    },
-    {
-      "productId": 3,
-      "name": "Macbook Pro",
-      "price": 1250.0,
-      "quantity": 1,
-      "subTotal": 1250.0
-    }
-  ],
-  "total": 1431.0
-}
-````
+
+## Endpoints
+### Oauth2 Token
+#### * POST Login
+```http
+ POST /oauth2/token
+```
+| Parâmetro   | Tipo       |Descrição|
+| :---------- | :--------- | :------------------------------------------ |
+| `username`  | `String` | **Required**. Client Username |
+| `password`  | `String` | **Required**. Client Password |
+
+### Category
+#### * GET All Categories (PUBLIC)
+```http
+ GET /categories
+```
+
+### Order
+#### * GET Order by id (PRIVATE)
+```http
+ GET /orders/{id}
+```
+| Parâmetro   | Tipo       |Descrição|
+| :---------- | :--------- | :------------------------------------------ |
+| `id`  | `Long` | **Required**. Order id |
+
+#### * POST Order (PRIVATE)
+```http
+ POST /orders
+```
+| Parâmetro   | Tipo       |Descrição|
+| :---------- | :--------- | :------------------------------------------ |
+| `items`  | `List` | **Required**. List of products with productId and quantity |
+
+### Product
+### * GET Products (PUBLIC)
+```http
+ GET /produts
+```
+
+### * GET Products by id (PUBLIC)
+```http
+  GET /produts/{id}
+```
+| Parâmetro   | Tipo       |Descrição|
+| :---------- | :--------- | :------------------------------------------ |
+| `id`  | `Long` | **Required**. Product id |
+
+### * POST Product (PRIVATE)
+```http
+  POST /produts
+```
+| Parâmetro   | Tipo       |Descrição|
+| :---------- | :--------- | :------------------------------------------ |
+| `name`      | `String` | **Required**. Product name |
+| `description` | `String` | **Required**. Product description |
+| `imageUrl`    | `String` | **Required**. Product image |
+| `price` | `Double` | **Required**. Product price |
+| `categories` | `List` | **Required**. Product categories |
+
+### * PUT Product (PRIVATE)
+```http
+  PUT /produts/{id}
+```
+| Parâmetro   | Tipo       |Descrição|
+| :---------- | :--------- | :------------------------------------------ |
+| `id`  | `Long` | **Required**. Product id |
+| `name`      | `String` | **Required**. Product name |
+| `description` | `String` | **Required**. Product description |
+| `imageUrl`    | `String` | **Required**. Product image |
+| `price` | `Double` | **Required**. Product price |
+| `categories` | `List` | **Required**. Product categories |
+
+### * DELETE Products by id (PRIVATE)
+```http
+  DELETE /produts/{id}
+```
+| Parâmetro   | Tipo       |Descrição|
+| :---------- | :--------- | :------------------------------------------ |
+| `id`  | `Long` | **Required**. Product id |
+
+
