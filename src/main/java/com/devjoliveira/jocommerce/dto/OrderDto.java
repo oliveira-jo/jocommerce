@@ -5,13 +5,15 @@ import java.util.List;
 
 import com.devjoliveira.jocommerce.entities.Order;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public record OrderDto(
     Long id,
     Instant moment,
     String status,
     UserMinDto userMin,
     PaymentDto payment,
-    List<OrderItemDto> items
+    @NotEmpty(message = "Order must have at least one item") List<OrderItemDto> items
 
 ) {
 
