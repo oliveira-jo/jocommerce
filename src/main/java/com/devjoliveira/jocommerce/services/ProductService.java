@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devjoliveira.jocommerce.dto.ProductCategoryDto;
 import com.devjoliveira.jocommerce.dto.ProductDto;
+import com.devjoliveira.jocommerce.dto.ProductMinDto;
 import com.devjoliveira.jocommerce.entities.Product;
 import com.devjoliveira.jocommerce.repositories.ProductRepository;
 import com.devjoliveira.jocommerce.services.Exceptions.DatabaseException;
@@ -35,9 +36,9 @@ public class ProductService {
   }
 
   @Transactional(readOnly = true)
-  public Page<ProductDto> findAll(String name, Pageable pageable) {
+  public Page<ProductMinDto> findAll(String name, Pageable pageable) {
     Page<Product> productFromDB = productRepository.searchByName(name, pageable);
-    return productFromDB.map(ProductDto::new);
+    return productFromDB.map(ProductMinDto::new);
   }
 
   @Transactional(readOnly = true)

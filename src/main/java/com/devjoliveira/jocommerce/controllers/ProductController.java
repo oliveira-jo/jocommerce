@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.devjoliveira.jocommerce.dto.ProductCategoryDto;
 import com.devjoliveira.jocommerce.dto.ProductDto;
+import com.devjoliveira.jocommerce.dto.ProductMinDto;
 import com.devjoliveira.jocommerce.services.ProductService;
 
 import jakarta.validation.Valid;
@@ -40,7 +41,7 @@ public class ProductController {
 
   // http://localhost:8080/api/v1/products?size=12&page=0&sort=name,desc&name=mac
   @GetMapping
-  public ResponseEntity<Page<ProductDto>> findAll(@RequestParam(name = "name", defaultValue = "") String name,
+  public ResponseEntity<Page<ProductMinDto>> findAll(@RequestParam(name = "name", defaultValue = "") String name,
       Pageable pageable) {
     return ResponseEntity.ok().body(productService.findAll(name, pageable));
   }
