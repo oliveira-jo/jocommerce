@@ -24,19 +24,26 @@ public class OrderService {
   private final OrderItemRepository orderItemRepository;
   private final ProductRepository productRepository;
   private final UserService userService;
+  private final AuthService authService;
 
   public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository,
-      ProductRepository productRepository, UserService userService) {
+      ProductRepository productRepository, UserService userService, AuthService authService) {
     this.orderRepository = orderRepository;
     this.orderItemRepository = orderItemRepository;
     this.productRepository = productRepository;
     this.userService = userService;
+    this.authService = authService;
   }
 
   @Transactional(readOnly = true)
   public OrderDto findById(Long id) {
+
     Order entity = orderRepository.findById(id).orElseThrow(
         () -> new ResourceNotFoundException("Resource not found"));
+
+    // Validate if the user is the owner of the order or an admin
+    authService.validateSelfOrAdmin(entity.getClient().getId());
+
     return new OrderDto(entity);
   }
 
