@@ -142,4 +142,8 @@ The price is saved in the order item to maintain a history — so if the product
 | :---------- | :--------- | :------------------------------------------ |
 | `id`  | `Long` | **Required**. Product id |
 
+## Figma Frontend
+````
+https://www.figma.com/design/ZrGNVNG0kZL6txDv4G8P6s/DSCommerce?node-id=0-1&p=f&t=gXhwST7MlOc3kwQl-0
+````
 
