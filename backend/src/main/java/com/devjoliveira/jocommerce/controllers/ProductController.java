@@ -42,7 +42,7 @@ public class ProductController {
   @GetMapping
   public ResponseEntity<Page<ProductMinDto>> findAll(@RequestParam(name = "name", defaultValue = "") String name,
       Pageable pageable) {
-    return ResponseEntity.ok().body(productService.findAll(name, pageable));
+    return ResponseEntity.ok().body(productService.findAllByName(name, pageable));
   }
 
   @PreAuthorize("hasRole('ROLE_ADMIN')")

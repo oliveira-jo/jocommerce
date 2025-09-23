@@ -42,13 +42,13 @@ public class ProductService {
   }
 
   @Transactional(readOnly = true)
-  public Page<ProductMinDto> findAll(String name, Pageable pageable) {
+  public Page<ProductMinDto> findAllByName(String name, Pageable pageable) {
     Page<Product> productFromDB = productRepository.searchByName(name, pageable);
     return productFromDB.map(ProductMinDto::new);
   }
 
   @Transactional(readOnly = true)
-  public Page<ProductDto> find(Pageable pageable) {
+  public Page<ProductDto> findAll(Pageable pageable) {
     Page<Product> page = productRepository.findAll(pageable);
     /*
      * CHAMADA SECA
@@ -81,15 +81,12 @@ public class ProductService {
   @Transactional
   public ProductDto update(Long id, ProductDto dto) {
     try {
-
       Product entity = productRepository.getReferenceById(id);
       copyDtoToEntity(dto, entity);
       return new ProductDto(productRepository.save(entity));
-
     } catch (EntityNotFoundException e) {
       throw new ResourceNotFoundException("Resourse not found");
     }
-
   }
 
   @Transactional(propagation = Propagation.SUPPORTS)
