@@ -15,7 +15,7 @@ import com.devjoliveira.jocommerce.enums.OrderStatus;
 import com.devjoliveira.jocommerce.repositories.OrderItemRepository;
 import com.devjoliveira.jocommerce.repositories.OrderRepository;
 import com.devjoliveira.jocommerce.repositories.ProductRepository;
-import com.devjoliveira.jocommerce.services.Exceptions.ResourceNotFoundException;
+import com.devjoliveira.jocommerce.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class OrderService {

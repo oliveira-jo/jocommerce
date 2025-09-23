@@ -109,6 +109,39 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.11</version>
+				<configuration>
+					<excludes>
+						<exclude>com/devjoliveira/jocommerce/JocommerceApplication.class</exclude>
+						<exclude>com/devjoliveira/jocommerce/config/**</exclude>
+						<exclude>com/devjoliveira/jocommerce/entities/**</exclude>
+						<exclude>com/devjoliveira/jocommerce/dto/**</exclude>
+						<exclude>com/devjoliveira/jocommerce/controllers/handlers/**</exclude>
+						<exclude>com/devjoliveira/jocommerce/services/exceptions/**</exclude>
+						<exclude>com/devjoliveira/jocommerce/enums/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/jacoco-report</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

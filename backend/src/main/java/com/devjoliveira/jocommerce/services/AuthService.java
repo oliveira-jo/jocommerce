@@ -3,7 +3,7 @@ package com.devjoliveira.jocommerce.services;
 import org.springframework.stereotype.Service;
 
 import com.devjoliveira.jocommerce.entities.User;
-import com.devjoliveira.jocommerce.services.Exceptions.ForbiddenException;
+import com.devjoliveira.jocommerce.services.exceptions.ForbiddenException;
 
 @Service
 public class AuthService {

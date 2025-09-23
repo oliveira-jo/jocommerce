@@ -17,8 +17,8 @@ import com.devjoliveira.jocommerce.entities.Category;
 import com.devjoliveira.jocommerce.entities.Product;
 import com.devjoliveira.jocommerce.repositories.CategoryRepository;
 import com.devjoliveira.jocommerce.repositories.ProductRepository;
-import com.devjoliveira.jocommerce.services.Exceptions.DatabaseException;
-import com.devjoliveira.jocommerce.services.Exceptions.ResourceNotFoundException;
+import com.devjoliveira.jocommerce.services.exceptions.DatabaseException;
+import com.devjoliveira.jocommerce.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 

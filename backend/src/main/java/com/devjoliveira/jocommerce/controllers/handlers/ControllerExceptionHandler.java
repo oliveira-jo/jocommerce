@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.devjoliveira.jocommerce.dto.CustomError;
 import com.devjoliveira.jocommerce.dto.ValidationError;
-import com.devjoliveira.jocommerce.services.Exceptions.DatabaseException;
-import com.devjoliveira.jocommerce.services.Exceptions.ForbiddenException;
-import com.devjoliveira.jocommerce.services.Exceptions.ResourceNotFoundException;
+import com.devjoliveira.jocommerce.services.exceptions.DatabaseException;
+import com.devjoliveira.jocommerce.services.exceptions.ForbiddenException;
+import com.devjoliveira.jocommerce.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 

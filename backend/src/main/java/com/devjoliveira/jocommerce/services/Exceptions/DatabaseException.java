@@ -1,4 +1,4 @@
-package com.devjoliveira.jocommerce.services.Exceptions;
+package com.devjoliveira.jocommerce.services.exceptions;
 
 public class DatabaseException extends RuntimeException {
 
