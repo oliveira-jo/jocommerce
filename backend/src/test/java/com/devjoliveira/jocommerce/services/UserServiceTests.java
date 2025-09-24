@@ -46,7 +46,7 @@ public class UserServiceTests {
     existingEmail = "maria@gmail.com";
     nonExistingEmail = "user@gmail.com";
 
-    user = UserFactory.createCustonUserClient(1L, existingEmail);
+    user = UserFactory.createCustonUserClient(1L, "maria", existingEmail);
     userdetailsProjectionList = UserDetailsFactory.createCustomAdminUser(existingEmail);
 
     Mockito.when(repository.searchUserAndRolesByEmail(existingEmail)).thenReturn(userdetailsProjectionList);

@@ -36,10 +36,10 @@ public class UserFactory {
     return user;
   }
 
-  public static User createCustonUserClient(Long id, String email) {
+  public static User createCustonUserClient(Long id, String name, String email) {
 
     User user = new User(id,
-        "Maria Brown",
+        name,
         email,
         "988888888",
         LocalDate.of(2001, 07, 25),
@@ -50,10 +50,10 @@ public class UserFactory {
     return user;
   }
 
-  public static User createCustonUserAdmin(Long id, String email) {
+  public static User createCustonUserAdmin(Long id, String name, String email) {
 
     User user = new User(id,
-        "Alex Green",
+        name,
         email,
         "977777777",
         LocalDate.of(1987, 12, 13),
