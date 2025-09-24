@@ -54,7 +54,6 @@ public class UserService implements UserDetailsService {
   }
 
   protected User authenticated() {
-
     try {
       String username = customUserUtil.getLoggedUsername();
       return userRepository.findByEmail(username).get();
@@ -63,7 +62,6 @@ public class UserService implements UserDetailsService {
       throw new UsernameNotFoundException("User not found: ");
 
     }
-
   }
 
 }

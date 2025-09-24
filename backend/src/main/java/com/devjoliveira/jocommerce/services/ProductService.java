@@ -103,7 +103,7 @@ public class ProductService {
 
   }
 
-  private void copyDtoToEntity(ProductDto productDto, Product product) {
+  protected void copyDtoToEntity(ProductDto productDto, Product product) {
     product.setName(productDto.name());
     product.setDescription(productDto.description());
     product.setPrice(productDto.price());

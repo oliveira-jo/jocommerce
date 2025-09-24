@@ -74,7 +74,9 @@ public class ProductServiceTests {
     Mockito.when(repository.findAll((Pageable) any())).thenReturn(page);
 
     Mockito.when(repository.save(any())).thenReturn(product);
-    Mockito.when(categoryRepository.findById(any())).thenReturn(Optional.of(CategoryFactory.createCategory()));
+
+    Mockito.when(categoryRepository.findById(1L)).thenReturn(Optional.of(CategoryFactory.createCategory()));
+    Mockito.when(categoryRepository.findById(999L)).thenReturn(Optional.empty());
 
     Mockito.when(repository.getReferenceById(existingProductId)).thenReturn(product);
     Mockito.when(repository.getReferenceById(nonExistingProductId)).thenThrow(EntityNotFoundException.class);
@@ -90,7 +92,7 @@ public class ProductServiceTests {
   }
 
   @Test
-  void findById_ShouldReturnProductDTO_WhenIdExists() {
+  public void findById_ShouldReturnProductDTO_WhenIdExists() {
 
     ProductDto result = service.findById(existingProductId);
 
@@ -101,7 +103,7 @@ public class ProductServiceTests {
   }
 
   @Test
-  void findById_ShouldThrowResourceNotFoundException_WhenIdDoesNotExist() {
+  public void findById_ShouldThrowResourceNotFoundException_WhenIdDoesNotExist() {
 
     Assertions.assertThrows(ResourceNotFoundException.class, () -> {
       service.findById(nonExistingProductId);
@@ -110,7 +112,7 @@ public class ProductServiceTests {
   }
 
   @Test
-  void findAllByName_ShouldReturnPageOfProductMinDTO_WhenAllOkay() {
+  public void findAllByName_ShouldReturnPageOfProductMinDTO_WhenAllOkay() {
 
     Pageable pageable = PageRequest.of(0, 12);
 
@@ -124,7 +126,7 @@ public class ProductServiceTests {
   }
 
   @Test
-  void find_ShouldReturnPageOfProductDTO_WhenAllOkay() {
+  public void find_ShouldReturnPageOfProductDTO_WhenAllOkay() {
 
     Pageable pageable = PageRequest.of(0, 12);
 
@@ -138,7 +140,7 @@ public class ProductServiceTests {
   }
 
   @Test
-  void insert_ShouldReturnProductDTO_WhenValidDatas() {
+  public void insert_ShouldReturnProductDTO_WhenValidDatas() {
 
     ProductDto result = service.insert(productDto);
 
@@ -163,7 +165,7 @@ public class ProductServiceTests {
   }
 
   @Test
-  void update_ShouldReturnProductDTO_WhenIdExists() {
+  public void update_ShouldReturnProductDTO_WhenIdExists() {
 
     String updateName = "New Name";
     ProductDto updatedProductDto = new ProductDto(existingProductId, updateName, "Updated Description", 800.0,
@@ -205,10 +207,43 @@ public class ProductServiceTests {
   }
 
   @Test
-  void delete_ShouldThrowDatabaseException_WhenIdIsDependent() {
+  public void delete_ShouldThrowDatabaseException_WhenIdIsDependent() {
 
     Assertions.assertThrows(DatabaseException.class, () -> {
       service.delete(dependentProductId);
+    });
+
+  }
+
+  @Test
+  public void copyDtoToEntity_ShouldCopyData_WhenAllOkay() {
+
+    Product newProductEntity = new Product();
+
+    service.copyDtoToEntity(productDto, newProductEntity);
+
+    Assertions.assertEquals(productDto.name(), newProductEntity.getName());
+    Assertions.assertEquals(productDto.description(), newProductEntity.getDescription());
+    Assertions.assertEquals(productDto.price(), newProductEntity.getPrice());
+    Assertions.assertEquals(productDto.imageUrl(), newProductEntity.getImageUrl());
+
+    Assertions.assertEquals(productDto.categories().get(0).id(),
+        newProductEntity.getCategories().iterator().next().getId());
+
+    Assertions.assertFalse(newProductEntity.getCategories().isEmpty());
+    Assertions.assertEquals(1, newProductEntity.getCategories().size());
+
+  }
+
+  @Test
+  public void copyDtoToEntity_ShouldThrowResourceNotFound_WhenCategoryIdDoesNotExists() {
+
+    Product newProductEntity = new Product();
+    productDto.categories().clear();
+    productDto.categories().add(new CategoryDto(999L, "Non Existing Category"));
+
+    Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+      service.copyDtoToEntity(productDto, newProductEntity);
     });
 
   }
