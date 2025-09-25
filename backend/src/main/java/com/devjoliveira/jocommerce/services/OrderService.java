@@ -68,10 +68,10 @@ public class OrderService {
 
     }
 
-    orderRepository.save(order);
+    Order result = orderRepository.save(order);
     orderItemRepository.saveAll(order.getItems());
 
-    return new OrderDto(order);
+    return new OrderDto(result);
 
   }
 

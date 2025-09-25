@@ -116,7 +116,9 @@
 				<configuration>
 					<excludes>
 						<exclude>com/devjoliveira/jocommerce/JocommerceApplication.class</exclude>
+						<exclude>com/devjoliveira/jocommerce/controllers/**</exclude>
 						<exclude>com/devjoliveira/jocommerce/config/**</exclude>
+						<exclude>com/devjoliveira/jocommerce/utils/**</exclude>
 						<exclude>com/devjoliveira/jocommerce/entities/**</exclude>
 						<exclude>com/devjoliveira/jocommerce/dto/**</exclude>
 						<exclude>com/devjoliveira/jocommerce/controllers/handlers/**</exclude>
