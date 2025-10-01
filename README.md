@@ -27,19 +27,19 @@ Administrator users have access to an admin panel where they can manage users, p
    
 
 ## Class Diagram
-![Class diagram](/src/main/resources/img/class-diagram.png)
+![Class diagram](/backend/assets/class-diagram.png)
 * Each order item corresponds to a product in the order, along with the quantity of that product.
 The price is saved in the order item to maintain a history — so if the product price changes in the future, the sale price at the time of the order is still recorded in the system.
 * User can have one or more roles, which define their access profile in the system (e.g., client, admin).
 
 ## Security
 ### Model User Role
-![Class diagram](/src/main/resources/img/user-role-model.png)
+![Class diagram](/backend/assets/user-role-model.png)
 * User
 * Role
 
 ### Model Spring Security
-![Class diagram](/src/main/resources/img/spring-security-checklist.png)
+![Class diagram](/backend/assets/spring-security-checklist.png)
 *	UserDetails: Informações do usuário (nome e perfiles) E algumas informações adicionais;
 *	GrantedAuthority: coleção de Roles que o usuário tem;
 *	UserDetailsService: Componente que o spring precisa, com o método loadUserByUsername;
@@ -47,7 +47,7 @@ The price is saved in the order item to maintain a history — so if the product
 
 
 ### Model OAuth2
-![Class diagram](/src/main/resources/img/oauth2.png)
+![Class diagram](/backend/assets/oauth2.png)
 * Implementação customizada do password grant
 * Authorization server 
   * Habilitar Authorization server

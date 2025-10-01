@@ -2,8 +2,10 @@ package com.devjoliveira.jocommerce.controllers;
 
 import java.net.URI;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,13 +31,20 @@ public class OrdeController {
 
   @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
   @GetMapping("/{id}")
-  public ResponseEntity<OrderDto> getOrderById(@PathVariable("id") Long id) {
+  public ResponseEntity<OrderDto> findById(@PathVariable("id") Long id) {
     return ResponseEntity.ok(orderService.findById(id));
   }
 
-  @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
+  @PreAuthorize("hasRole('ROLE_CLIENT')")
   @PostMapping
   public ResponseEntity<OrderDto> insert(@Valid @RequestBody OrderDto orderDto) {
+
+    // PreAuthorize don't work in this case, because this ->
+    if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+        .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
     orderDto = orderService.insert(orderDto);
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         .buildAndExpand(orderDto.id()).toUri();
